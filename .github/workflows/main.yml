@@ -1,0 +1,41 @@
+name: Node.js CI/CD Pipeline
+
+# 1. When should this run?
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# 2. What jobs should run?
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step A: Get a copy of the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step B: Set up Node.js environment
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Step C: Install the dependencies (express, jest, etc.)
+      - name: Install dependencies
+        run: npm install
+
+      # Step D: Run the tests (The "CI" part)
+      - name: Run Tests
+        run: npm test
+
+  deploy:
+    needs: build-and-test # Only run if tests pass!
+    runs-on: ubuntu-latest
+
+    steps:
+      # The "CD" part (Simulated)
+      - name: Deploy to Production
+        run: echo "Deploying to production server..."
