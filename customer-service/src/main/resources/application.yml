@@ -1,6 +1,7 @@
 spring:
   application:
     name: customer-service
+
 grpc:
   server:
     port: 9091
