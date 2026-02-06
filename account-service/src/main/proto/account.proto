@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package account;
+
+option java_package = "org.example.accountservice.proto";
+option java_multiple_files = true;
+
+import "google/protobuf/empty.proto";
+
+service AccountService {
+  rpc FindAll(google.protobuf.Empty) returns (AccountList);
+  rpc FindById(AccountId) returns (Account);
+  rpc Create(CreateAccountRequest) returns (Account);
+}
+
+message Account {
+  int32 id = 1;
+  string number = 2;
+  int32 customer_id = 3;
+}
+
+message AccountList {
+  repeated Account accounts = 1;
+}
+
+message AccountId {
+  int32 id = 1;
+}
+
+message CreateAccountRequest {
+  string number = 1;
+  int32 customer_id = 2;
+}

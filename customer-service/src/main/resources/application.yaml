@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: customer-service
+grpc:
+  server:
+    port: 9091
+  client:
+    channels:
+      account-service:
+        address: localhost:9090
+        negotiation-type: plaintext
