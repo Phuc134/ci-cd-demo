@@ -6,30 +6,28 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
 @Repository
-public class AccountServiceRepository {
-    private List<Account> accounts = new ArrayList<>();
+public class AccountRepository {
+    private final List<Account> accounts = new ArrayList<>();
     private final AtomicInteger idCounter = new AtomicInteger(0);
 
-    public AccountServiceRepository() {
+    public AccountRepository() {
         accounts.add(Account.newBuilder()
                 .setId(idCounter.incrementAndGet())
                 .setNumber("ACC001")
                 .setCustomerId(1)
                 .build());
-
         accounts.add(Account.newBuilder()
                 .setId(idCounter.incrementAndGet())
                 .setNumber("ACC002")
-                .setCustomerId(1)
+                .setCustomerId(2)
                 .build());
-
         accounts.add(Account.newBuilder()
                 .setId(idCounter.incrementAndGet())
                 .setNumber("ACC003")
-                .setCustomerId(2)
+                .setCustomerId(3)
                 .build());
-
     }
 
     public List<Account> findAll() {

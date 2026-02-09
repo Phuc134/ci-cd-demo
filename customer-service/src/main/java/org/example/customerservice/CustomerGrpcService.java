@@ -20,9 +20,20 @@ public class CustomerGrpcService extends CustomerServiceGrpc.CustomerServiceImpl
 
     @Override
     public void findAll(Empty request, StreamObserver<CustomerList> responseObserver) {
+        List<Customer> rawCustomers = customerRepository.findAll();
+        List<Account> temp = accountClient.getAllAccounts();
+        List<Customer> customersWithAccounts = rawCustomers.stream()
+                .map(customer -> {
+                    List<Account> accounts = accountClient.getAccountsForCustomer(customer.getId());
+
+                    return Customer.newBuilder(customer)
+                            .addAllAccounts(accounts)
+                            .build();
+                })
+                .toList();
 
         CustomerList list = CustomerList.newBuilder()
-                .addAllCustomers(customerRepository.findAll())
+                .addAllCustomers(customersWithAccounts)
                 .build();
 
         responseObserver.onNext(list);

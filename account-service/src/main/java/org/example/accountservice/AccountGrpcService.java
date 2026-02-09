@@ -6,11 +6,12 @@ import org.example.accountservice.proto.*;
 import org.springframework.grpc.server.service.GrpcService;
 
 @GrpcService
-public class AccountServiceGrpcService extends AccountServiceGrpc.AccountServiceImplBase {
+public class AccountGrpcService extends AccountServiceGrpc.AccountServiceImplBase {
 
-    private final AccountServiceRepository repository;
-    public AccountServiceGrpcService(AccountServiceRepository accountServiceRepository) {
-        this.repository = accountServiceRepository;
+    private final AccountRepository repository;
+
+    public AccountGrpcService(AccountRepository accountRepository) {
+        this.repository = accountRepository;
     }
 
     @Override
@@ -23,13 +24,12 @@ public class AccountServiceGrpcService extends AccountServiceGrpc.AccountService
     }
 
     @Override
-    public void findById(AccountId request, StreamObserver<Account>  responseObserver) {
+    public void findById(AccountId request, StreamObserver<Account> responseObserver) {
         Account account = repository.findById(request.getId());
         if (account != null) {
             responseObserver.onNext(account);
             responseObserver.onCompleted();
-        }
-        else {
+        } else {
             responseObserver.onError(new RuntimeException("account not found"));
         }
     }
